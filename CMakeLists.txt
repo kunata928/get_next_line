@@ -12,3 +12,5 @@ set (HEADER get_next_line.h)
 add_executable(GetNextLine ${SOURCES} ${HEADERS})
 
 add_subdirectory(libft)
+
+target_link_libraries(GetNextLine libft)
