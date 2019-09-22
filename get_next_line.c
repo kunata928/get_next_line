@@ -6,7 +6,7 @@
 /*   By: pmelodi <pmelodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 22:12:01 by pmelodi           #+#    #+#             */
-/*   Updated: 2019/09/22 19:41:47 by pmelodi          ###   ########.fr       */
+/*   Updated: 2019/09/22 19:45:49 by pmelodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int		get_next_line(const int fd, char **line)
 		buf[a] = '\0';
 		if (ft_strchr(buf, '\n'))
 		{
-
 			fill_list_b(buf, &list_b);
 			break;
 		}
