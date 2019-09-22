@@ -6,11 +6,13 @@
 /*   By: pmelodi <pmelodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 22:12:01 by pmelodi           #+#    #+#             */
-/*   Updated: 2019/09/22 19:45:49 by pmelodi          ###   ########.fr       */
+/*   Updated: 2019/09/22 22:11:45 by pmelodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*str_slice(char **str);
 
 //static int 	read_buf()
 //{
@@ -39,50 +41,50 @@ static int		lst_pushback(t_listn **list_b, char *buf, size_t size)
 
 int		fill_line(char **line, t_list *list_b)
 {
-	t_list *begin;
 
-	begin = list_b;
-	while (list_b)
-	{
-		*line = ft_strjoin((const char *)(*line), (const char *)(list_b->content));
-		if (!(*line))
-		{
-			free(*line);
-			line = NULL;
-			return (ft_lstdel(begin, del));
-		}
-		list_b = list_b->next;
-	}
 	return (0);
 }
 
 int		get_next_line(const int fd, char **line)
 {
 	char			buf[BUFF_SIZE + 1];
-	static t_list	*list_b;
-	int a;
+	static char 	*str_buf;
+	int 			a;
 
 	if (!fd || !line)
 		return (-1);
-	while (list_b )
+	if (*str_buf)
 	{
-		*line = ft_strjoin((const char *)(*line), (const char *)(list_b->content));
+		*line = ft_strsub(str_buf, 0, ft_strlen(str_buf) - ft_strlen(ft_strchr(buf, '\n')));
+		str_buf = str_slice(&str_buf);
 	}
 	while ((a = read(fd, buf, BUFF_SIZE)))
 	{
 		buf[a] = '\0';
 		if (ft_strchr(buf, '\n'))
 		{
-			fill_list_b(buf, &list_b);
-			break;
+			*line = ft_strjoin(*line, ft_strsub(buf, 0, BUFF_SIZE + 1 - ft_strlen(ft_strchr(buf, '\n'))));
+			str_buf = str_slice(&buf);
 		}
 		else
-		{
-			if (!(lst_pushback(&list_b, buf, len_str_n(buf))))
-				return (ft_lstdel(&list_b, del));
-		}
+			*line = ft_strjoin(*line, buf);
 	}
-	return (fill_line(line, list_b));
+	return ();
+}
+
+char	*str_slice(char **str)
+{
+	size_t	len;
+	char	*res;
+
+	if (!str)
+		return (NULL);
+	if (!(len = ft_strlen(ft_strchr(*str, '\n'))))
+		return (NULL);
+	res = (char *)malloc(sizeof(char) * (len + 1));
+	if (!res)
+		return (NULL);
+	res = ft_strcpy(res, ft_strchr(*str, '\n') + 1);
 }
 
 int		main(int ac, char **av)
