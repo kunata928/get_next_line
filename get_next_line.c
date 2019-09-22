@@ -6,7 +6,7 @@
 /*   By: pmelodi <pmelodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 22:12:01 by pmelodi           #+#    #+#             */
-/*   Updated: 2019/09/21 20:45:17 by pmelodi          ###   ########.fr       */
+/*   Updated: 2019/09/22 19:39:16 by pmelodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,22 @@ int		fill_line(char **line, t_list *list_b)
 
 int		get_next_line(const int fd, char **line)
 {
-	static char	buf[BUFF_SIZE + 1];
-	t_list *list_b;
+	char			buf[BUFF_SIZE + 1];
+	static t_list	*list_b;
 	int a;
 
 	if (!fd || !line)
 		return (-1);
+	while (list_b )
+	{
+		*line = ft_strjoin((const char *)(*line), (const char *)(list_b->content));
+	}
 	while ((a = read(fd, buf, BUFF_SIZE)))
 	{
 		buf[a] = '\0';
 		if (ft_strchr(buf, '\n'))
 		{
+			fill_list_b(buf, &list_b);
 			break;
 		}
 		else
