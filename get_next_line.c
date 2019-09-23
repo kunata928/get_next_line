@@ -6,21 +6,13 @@
 /*   By: pmelodi <pmelodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 22:12:01 by pmelodi           #+#    #+#             */
-/*   Updated: 2019/09/22 22:11:45 by pmelodi          ###   ########.fr       */
+/*   Updated: 2019/09/23 21:24:38 by pmelodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*str_slice(char **str);
-
-//static int 	read_buf()
-//{
-//	int i;
-//
-//	i = 0;
-//	return (i);
-//}
+char	*str_slice(char *str);
 
 static size_t 	len_str_n(const char *str)
 {
@@ -32,59 +24,59 @@ static size_t 	len_str_n(const char *str)
 	return (len);
 }
 
-static int		lst_pushback(t_listn **list_b, char *buf, size_t size)
-{
-	if (!(*list_b = ft_lstnew(buf, len_str_n(buf))))
-		return (0);
-	return (1);
-}
-
-int		fill_line(char **line, t_list *list_b)
-{
-
-	return (0);
-}
-
 int		get_next_line(const int fd, char **line)
 {
 	char			buf[BUFF_SIZE + 1];
-	static char 	*str_buf;
 	int 			a;
+	static char 	*str_buf;
+	static t_gnl 	*gnl;
 
-	if (!fd || !line)
-		return (-1);
-	if (*str_buf)
+	ft_putendl("hello");
+	if (!gnl)
+		gnl = (t_gnl *)ft_memalloc(sizeof(gnl));
+	if (gnl->fd != fd)
 	{
-		*line = ft_strsub(str_buf, 0, ft_strlen(str_buf) - ft_strlen(ft_strchr(buf, '\n')));
-		str_buf = str_slice(&str_buf);
+		gnl->str = ft_strnew(BUFF_SIZE);
+		gnl->str[read(fd, gnl->str, BUFF_SIZE)] = '\0';
 	}
-	while ((a = read(fd, buf, BUFF_SIZE)))
-	{
-		buf[a] = '\0';
-		if (ft_strchr(buf, '\n'))
-		{
-			*line = ft_strjoin(*line, ft_strsub(buf, 0, BUFF_SIZE + 1 - ft_strlen(ft_strchr(buf, '\n'))));
-			str_buf = str_slice(&buf);
-		}
-		else
-			*line = ft_strjoin(*line, buf);
-	}
-	return ();
+	ft_putendl(gnl->str);
+	ft_putendl("!");
+//	str_buf = NULL;
+//	if (!fd)
+//		return (-1);
+//	if (str_buf)
+//	{
+//		*line = ft_strsub(str_buf, 0, ft_strlen(str_buf) - ft_strlen(ft_strchr(buf, '\n')));
+//		str_buf = str_slice(str_buf);
+//	}
+//	while ((a = read(fd, buf, BUFF_SIZE)));
+//	{
+//		buf[BUFF_SIZE] = '\0';
+//		if (ft_strchr(buf, '\n'))
+//		{
+//			*line = ft_strjoin(*line, ft_strsub(buf, 0, BUFF_SIZE + 1 - ft_strlen(ft_strchr(buf, '\n'))));
+//			str_buf = str_slice(buf);
+//		}
+//		else
+//			*line = ft_strjoin(*line, buf);
+//	}
+	return (0);
 }
 
-char	*str_slice(char **str)
+char	*str_slice(char *str)
 {
 	size_t	len;
 	char	*res;
 
 	if (!str)
 		return (NULL);
-	if (!(len = ft_strlen(ft_strchr(*str, '\n'))))
+	if (!(len = ft_strlen(ft_strchr(str, '\n'))))
 		return (NULL);
 	res = (char *)malloc(sizeof(char) * (len + 1));
 	if (!res)
 		return (NULL);
-	res = ft_strcpy(res, ft_strchr(*str, '\n') + 1);
+	res = ft_strcpy(res, ft_strchr(str, '\n') + 1);
+	return (str);
 }
 
 int		main(int ac, char **av)
@@ -95,13 +87,15 @@ int		main(int ac, char **av)
 
 	if (ac == 2)
 	{
-		fd = open(av[1], O_RDONLY);
-		while (get_next_line(fd, &line))
+		fd = open("/Users/pmelodi/Projects/GetNextLine/readme.txt", O_RDONLY);
+		get_next_line(fd, &line);
+		printf("%s\n", line);
+		/*while (get_next_line(fd, &line))
 		{
 			printf("%s\n", line);
 			free(line);
 			line = NULL;
-		}
+		}*/
 		close(fd);
 	}
 

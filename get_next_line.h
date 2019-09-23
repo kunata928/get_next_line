@@ -6,7 +6,7 @@
 /*   By: pmelodi <pmelodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 22:11:45 by pmelodi           #+#    #+#             */
-/*   Updated: 2019/09/20 22:56:48 by pmelodi          ###   ########.fr       */
+/*   Updated: 2019/09/23 21:15:34 by pmelodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@
 # include <stdio.h>
 # include "libft/libft.h"
 
-typedef struct		s_listn
+typedef struct		s_gnl
 {
-	char			*content;
-	struct s_listn	*next;
-}					t_listn;
+	char			*str;
+	int 			fd;
+	struct s_gnl	*next;
+}					t_gnl;
 
 int					get_next_line(const int fd, char **line);
 
