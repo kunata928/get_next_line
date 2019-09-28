@@ -5,7 +5,7 @@ set(CMAKE_C_STANDARD 99)
 
 include_directories(libft)
 
-set(SOURCES get_next_line.c)
+set(SOURCES get_next_line.c main.c)
 
 set (HEADER get_next_line.h)
 
