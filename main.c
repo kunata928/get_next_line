@@ -13,15 +13,16 @@ int				main(void)
 	int 	one;
 	int		i;
 
-	i = 5;
+	i = 0;
 	one = 0;
+	//line = NULL;
 	if ((fd = open("/Users/pmelodi/Projects/GetNextLine/gnl1_3.txt", O_RDONLY)) == -1)
 		ft_putendl("File error!");
-	while (get_next_line(fd, &line) > 0)
+	while (get_next_line(fd, &line))
 	{
-
 		printf("%s\n", line);
-		free(line);
+		ft_strdel(&line);
+		i++;
 	}
 	close(fd);
 
