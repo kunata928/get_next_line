@@ -6,13 +6,13 @@
 /*   By: pmelodi <pmelodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 22:12:01 by pmelodi           #+#    #+#             */
-/*   Updated: 2019/10/01 19:55:36 by pmelodi          ###   ########.fr       */
+/*   Updated: 2019/10/01 20:39:19 by pmelodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static t_gnl	*gnlnew(int fd)
+static t_gnl	*gnl_new(int fd)
 {
 	t_gnl	*list;
 
@@ -38,7 +38,7 @@ static t_gnl	*find_fd(int fd)
 		list = list->next;
 	}
 	if (!list)
-		list = gnlnew(fd);
+		list = gnl_new(fd);
 	list->next = gnl;
 	gnl = list;
 	return (list);
@@ -49,22 +49,20 @@ static char		*str_slice(char *str)
 	size_t	len;
 	char	*res;
 	size_t 	i;
-	char 	*chr;
 
-	chr = ft_strchr(str, '\n');
 	i = 0;
 	if (!str)
 		return (NULL);
-	if (!chr)
+	if (!(ft_strchr(str, '\n')))
 		len = 0;
 	else
-		len = ft_strlen(chr);
+		len = ft_strlen(ft_strchr(str, '\n'));
 	res = (char *)malloc(sizeof(char) * (len));
 	if (!res)
 		return (NULL);
 	while (i < len)
 	{
-		res[i] = chr[i + 1];
+		res[i] = ft_strchr(str, '\n')[i + 1];
 		i++;
 	}
 	res[i] = '\0';
@@ -87,16 +85,13 @@ int				get_next_line(const int fd, char **line)
 {
 	int		len;
 	char	*tmp;
-	char	*buff;
+	char	buff[BUFF_SIZE + 1];
 	t_gnl	*gnl;
 
 	if (fd < 0 || !line || read(fd, NULL, 0) < 0)
 		return (-1);
 	gnl = find_fd(fd);
-	if (!gnl)
-		return (0);
-	if (!(buff = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1))))
-		return (0);
+	*line = NULL;
 	while ((len = read(fd, buff, BUFF_SIZE)))
 	{
 		buff[len] = '\0';
@@ -105,16 +100,11 @@ int				get_next_line(const int fd, char **line)
 		ft_strdel(&tmp);
 		if (ft_strchr(buff, '\n'))
 			break;
-		ft_strdel(&buff);
-		if (!(buff = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1))))
-			return (0);
 	}
-	ft_strdel(&buff);
 	if (!ft_strlen(gnl->str))
 		return (0);
 	tmp = gnl->str;
 	gnl->str = add_line(line, gnl->str);
-//	gnl->str = str_slice(gnl->str);
 	ft_strdel(&tmp);
 	return (1);
 }
