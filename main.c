@@ -15,7 +15,7 @@ int				main(void)
 		ft_putendl("File error!");
 	if ((fd2 = open("/Users/pmelodi/Projects/GetNextLine/readme.txt", O_RDONLY)) == -1)
 		ft_putendl("File error!");
-	while (get_next_line(fd1, &line))
+	while (get_next_line(fd2, &line))
 	{
 		printf("%s\n", line);
 		ft_strdel(&line);
@@ -23,8 +23,7 @@ int				main(void)
 		//	printf("%s\n", line);
 		ft_strdel(&line);
 	}
-	//while (1)
-	//	;
+	ft_strdel(&line);
 	close(fd1);
 	close(fd2);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: pmelodi <pmelodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 22:12:01 by pmelodi           #+#    #+#             */
-/*   Updated: 2019/10/01 20:39:19 by pmelodi          ###   ########.fr       */
+/*   Updated: 2019/10/02 00:17:11 by pmelodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static t_gnl	*gnl_new(int fd)
 
 	if (!(list = (t_gnl *)ft_memalloc(sizeof(t_gnl))))
 		return (NULL);
-	list->str = (char *)malloc(sizeof(char));
 	list->str = "\0";
 	list->fd = fd;
 	list->next = NULL;
@@ -101,9 +100,12 @@ int				get_next_line(const int fd, char **line)
 		if (ft_strchr(buff, '\n'))
 			break;
 	}
-	if (!ft_strlen(gnl->str))
-		return (0);
 	tmp = gnl->str;
+	if (!ft_strlen(gnl->str))
+	{
+		ft_strdel(&tmp);
+		return (0);
+	}
 	gnl->str = add_line(line, gnl->str);
 	ft_strdel(&tmp);
 	return (1);
