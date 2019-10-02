@@ -6,7 +6,7 @@
 /*   By: pmelodi <pmelodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 22:12:01 by pmelodi           #+#    #+#             */
-/*   Updated: 2019/10/02 00:17:11 by pmelodi          ###   ########.fr       */
+/*   Updated: 2019/10/02 21:10:58 by pmelodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char		*str_slice(char *str)
 {
 	size_t	len;
 	char	*res;
-	size_t 	i;
+	size_t	i;
 
 	i = 0;
 	if (!str)
@@ -98,14 +98,11 @@ int				get_next_line(const int fd, char **line)
 		gnl->str = ft_strjoin(gnl->str, buff);
 		ft_strdel(&tmp);
 		if (ft_strchr(buff, '\n'))
-			break;
+			break ;
 	}
 	tmp = gnl->str;
 	if (!ft_strlen(gnl->str))
-	{
-		ft_strdel(&tmp);
 		return (0);
-	}
 	gnl->str = add_line(line, gnl->str);
 	ft_strdel(&tmp);
 	return (1);
