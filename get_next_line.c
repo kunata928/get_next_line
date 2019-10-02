@@ -6,7 +6,7 @@
 /*   By: pmelodi <pmelodi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 22:12:01 by pmelodi           #+#    #+#             */
-/*   Updated: 2019/10/02 21:10:58 by pmelodi          ###   ########.fr       */
+/*   Updated: 2019/10/02 23:28:45 by pmelodi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char		*str_slice(char *str)
 	i = 0;
 	if (!str)
 		return (NULL);
-	if (!(ft_strchr(str, '\n')))
+	if (!(ft_strchr(str, '\n')) || !(*(ft_strchr(str, '\n') + 1)))
 		len = 0;
 	else
 		len = ft_strlen(ft_strchr(str, '\n'));
